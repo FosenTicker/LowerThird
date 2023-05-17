@@ -1,0 +1,2 @@
+# LowerThird
+LowerThird FosenTicker
