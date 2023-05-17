@@ -22,6 +22,13 @@
     // Income per second (daily income divided by number of seconds in a day)
     var incomePerSecond = dailyIncome / (24 * 60 * 60);
 
+    var languages = [
+      { language: 'no-NO', text: 'Det har gått <span class="highlight">{days}</span> dager siden 11.10.2021. Akkumulert inntekt er <span class="highlight">{income}</span> NOK.' },
+      { language: 'en-US', text: 'It has been <span class="highlight">{days}</span> days since 11.10.2021. Accumulated income is <span class="highlight">{income}</span> NOK.' },
+      { language: 'de-DE', text: 'Es sind <span class="highlight">{days}</span> Tage seit dem 11.10.2021 vergangen. Akkumulierte Einnahmen betragen <span class="highlight">{income}</span> NOK.' },
+    ];
+    var currentLanguageIndex = 0;
+
     // Update the count down every 1 second
     var ticker = setInterval(function () {
 
@@ -38,8 +45,18 @@
       // Calculate accumulated income
       var income = Math.floor(seconds * incomePerSecond);
 
+      // Get the current language and text
+      var currentLanguage = languages[currentLanguageIndex].language;
+      var currentText = languages[currentLanguageIndex].text;
+
+      // Replace placeholders in the text
+      currentText = currentText.replace('{days}', days).replace('{income}', income.toLocaleString(currentLanguage));
+
       // Display the result in the element with id="ticker-text"
-      document.getElementById("ticker-text").innerHTML = "" + days + " Days has passed since 11.10.2021. Illegal income so far is " + income.toLocaleString('no-NO') + " NOK";
+      document.getElementById("ticker-text").innerHTML = currentText;
+
+      // Update the current language index, wrapping back to 0 if necessary
+      currentLanguageIndex = (currentLanguageIndex + 1) % languages.length;
 
       // If the count down is finished, write some text 
       if (distance < 0) {
