@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+    <div class="centered">
+        <p id="ticker"></p>
+    </div>
+
+    <script>
+    // Set the date from the day of the Supreme Court verdict in the Fosen case.
+    var countDate = new Date("Oct 11, 2021 00:00:00").getTime();
+
+    // Daily income in NOK
+    var dailyIncome = 2500000;
+
+    // Income per second (daily income divided by number of seconds in a day)
+    var incomePerSecond = dailyIncome / (24 * 60 * 60);
+
+    // Update the count down every 1 second
+    var ticker = setInterval(function() {
+
+      // Get today's date and time
+      var now = new Date().getTime();
+
+      // Find the distance between now and the count date
+      var distance = now - countDate;
+
+      // Time calculations for days and seconds
+      var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      var seconds = Math.floor(distance / 1000);
+
+      // Calculate accumulated income
+      var income = Math.floor(seconds * incomePerSecond);
+
+      // Display the result in the element with id="ticker"
+      document.getElementById("ticker").innerHTML =  "<span class='dager'>" + days + "</span></br>Days of Human Rights Violations.</br> Illegal income since </br><a href='https://www.domstol.no/en/supremecourt/rulings/2021/supreme-court-civil-cases/hr-2021-1975-s/'>the Supreme Court Verdict:</a> </br> <span class='kroner'>" + income.toLocaleString('no-NO') + " NOK</span>";
+
+      // If the count down is finished, write some text
+      if (distance < 0) {
+        clearInterval(ticker);
+        document.getElementById("ticker").innerHTML = "Feil i dato.";
+      }
+    }, 1000);
+        // Array of images
+          var images = [
+            'images/image1.jpg',
+            'images/image2.JPG',
+            'images/image3.JPG',
+            'images/image4.JPG',
+            'images/image5.JPG',
+            'images/image6.JPG',
+            // add more image paths as needed
+          ];
+
+          // Index to keep track of current image
+          var imageIndex = 0;
+
+      // Function to change the background image
+      function changeBackgroundImage() {
+        document.body.style.setProperty('--bg-image', 'url(' + images[imageIndex] + ')');
+        imageIndex = (imageIndex + 1) % images.length;
+      }
+    
+
+          // Initial background image
+          changeBackgroundImage();
+
+          // Change the background image every 5 seconds
+          setInterval(changeBackgroundImage, 5000);
+
+    </script>
+</body>
+</html>
