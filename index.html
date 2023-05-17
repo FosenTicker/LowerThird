@@ -10,8 +10,7 @@
   <div id="ticker" class="ticker">
     <p id="ticker-text"></p>
   </div>
-  <pre id="code" class="code"></pre>
-
+ 
   <script>
     // Set the date we're counting from
     var countDate = new Date("Oct 11, 2021 00:00:00").getTime();
@@ -23,15 +22,17 @@
     var incomePerSecond = dailyIncome / (24 * 60 * 60);
 
     var languages = [
-      { language: 'no-NO', text: 'Det har gått <span class="highlight">{days}</span> dager siden 11.10.2021. Akkumulert inntekt er <span class="highlight">{income}</span> NOK.' },
-      { language: 'en-US', text: 'It has been <span class="highlight">{days}</span> days since 11.10.2021. Accumulated income is <span class="highlight">{income}</span> NOK.' },
-      { language: 'de-DE', text: 'Es sind <span class="highlight">{days}</span> Tage seit dem 11.10.2021 vergangen. Akkumulierte Einnahmen betragen <span class="highlight">{income}</span> NOK.' },
+      { language: 'no-NO', text: '<span class="highlight">{days}</span> dager siden <a href="https://www.domstol.no/en/supremecourt/rulings/2021/supreme-court-civil-cases/hr-2021-1975-s/">Fosendommen</a>. Ulovlig inntekt sålangt er <span class="highlight">{income}</span> NOK.' },
+      { language: 'en-US', text: '<span class="highlight">{days}</span> days since the <a href="https://www.domstol.no/en/supremecourt/rulings/2021/supreme-court-civil-cases/hr-2021-1975-s/">Fosen judgment</a>. Illegal income so far is <span class="highlight">{income}</span> NOK.' },
+      { language: 'es-ES', text: '<span class="highlight">{days}</span> días desde la <a href="https://www.domstol.no/en/supremecourt/rulings/2021/supreme-court-civil-cases/hr-2021-1975-s/">sentencia de Fosen</a>. La renta ilegal hasta ahora es de <span class="highlight">{income}</span> NOK.' },
+      { language: 'se', text: '<span class="highlight">{days}</span> beaivvi <a href="https://www.domstol.no/en/supremecourt/rulings/2021/supreme-court-civil-cases/hr-2021-1975-s/">Fovsen duomu rájes</a>. Lobihis dienas dán radjái lea <span class="highlight">{income}</span> NOK.' },
     ];
     var currentLanguageIndex = 0;
 
     // Update the count down every 1 second
-    var ticker = setInterval(function () {
+    var ticker = setInterval(updateTicker, 1000);
 
+    function updateTicker() {
       // Get today's date and time
       var now = new Date().getTime();
 
@@ -55,18 +56,50 @@
       // Display the result in the element with id="ticker-text"
       document.getElementById("ticker-text").innerHTML = currentText;
 
-      // Update the current language index, wrapping back to 0 if necessary
-      currentLanguageIndex = (currentLanguageIndex + 1) % languages.length;
-
       // If the count down is finished, write some text 
       if (distance < 0) {
         clearInterval(ticker);
         document.getElementById("ticker-text").innerHTML = "Feil i dato.";
       }
-    }, 1000);
+    }
 
-    // Display the script for copying
-    document.getElementById("code").textContent = document.querySelector('script').textContent;
+  updateTicker();
+  setInterval(updateTicker, 1000);
+
+  // Listen for the animationiteration event on the ticker text
+  document.getElementById('ticker-text').addEventListener('animationiteration', function () {
+    // Update the current language index
+    currentLanguageIndex = (currentLanguageIndex + 1) % languages.length;
+
+    // Update the ticker immediately to reflect the language change
+    updateTicker();
+  });  
+            var images = [
+                'images/image1.jpg',
+                'images/image2.JPG',
+                'images/image3.JPG',
+                'images/image4.JPG',
+                'images/image5.JPG',
+                'images/image6.JPG',
+                // add more image paths as needed
+              ];
+
+              // Index to keep track of current image
+              var imageIndex = 0;
+
+              // Function to change the background image
+              function changeBackgroundImage() {
+                document.body.style.setProperty('--bg-image', 'url(' + images[imageIndex] + ')');
+                imageIndex = (imageIndex + 1) % images.length;
+              }
+
+
+              // Initial background image
+              changeBackgroundImage();
+
+              // Change the background image every 5 seconds
+              setInterval(changeBackgroundImage, 5000);
+
   </script>
 </body>
 
